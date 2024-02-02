@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HODLINFO</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Additional styles */
+        body {
+            font-family: Oswald,sans-serif;
+            background-color: #191d28;
+            color: cyan;
+            
+        }
+        #column {
+            margin-top: 50px; /* Adjust the margin-top value as needed */
+        }
+    </style>
+    <script>
+        function changed() {
+            console.log("function called")
+            var select = document.getElementById('idselect');
+            var selectedName = select.value;
+    
+            console.log('Selected Name:', selectedName);
+
+            // Find the corresponding data based on the selected name
+            var encodedResult = '<%= encodeURIComponent(JSON.stringify(result)) %>';
+            var decodedResult = JSON.parse(decodeURIComponent(encodedResult));
+            var selectedData = decodedResult.find(item => item.name === selectedName);
+
+            console.log('Selected Data:', selectedData);
+    
+            // Update the displayed data
+            document.getElementById("column").innerHTML = '<div class="flex gap-4 bg-gray-800 text-white rounded-md mx-3" >'+
+                '<div class="flex-1  p-4 text-center ">' + (selectedData ? selectedData.name : '') + '</div>' +
+                '<div class="flex-1 p-4 text-center">' + (selectedData ? selectedData.last : '') + '</div>' +
+                '<div class="flex-1  p-4 text-center">' + (selectedData ? selectedData.buy : '') + ' / '+(selectedData ? selectedData.sell : '')+'</div>' +
+                '<div class="flex-1  p-4 text-center">' + (selectedData ? selectedData.volume : '') + '</div>' +
+                '<div class="flex-1  p-4 text-center">' + (selectedData ? selectedData.base_unit : '') + '</div>'+'</div>';
+
+                
+        }
+        
+
+    </script>
+</head>
+
+<body>
+    <!-- Top Section --><div class=" md:font-serif font-bold text-4xl ">HODLINFO</div>
+    <div class="flex justify-center p-4">
+        <!-- Title on the left -->
+        
+
+        <!-- Select tag in the center -->
+        <div class="text-xl">
+            
+            <select id="idselect" name="names" class="p-2 bg-gray-800 text-sm rounded-md text-white" onchange="changed()">
+                <option>select</option>
+                
+                <% var i = 0; %>
+                <% while (i < result.length) { %>
+                    <option value="<%= result[i].name %>"><%= result[i].name %></option>
+                    <% i++; %>
+                <% } %>
+            </select>
+        </div>
+    </div>
+
+    <div class="flex p-4 h-1 text-2xl">
+        <!-- Single row of grid elements with the same color -->
+        <div class="flex-1  p-4 pt-0   text-center">Name</div>
+        <div class="flex-1  p-4 pt-0  text-center  ">Last</div>
+        <div class="flex-1  p-4 pt-0  text-center  ">Buy / Sell</div>
+       
+        <div class="flex-1 p-4 pt-0  text-center  ">Volumn</div>
+        <div class="flex-1 p-4 pt-0  text-center  ">Base Unit</div>
+    </div>
+
+   
+    
+    <div id="column" >
+       
+
+    </div>
+
+    
+    
+    
+    
+</body>
+
+</html>
